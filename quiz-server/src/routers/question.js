@@ -24,6 +24,17 @@ router.get('/questions', async (req, res) => {
   }
 })
 
+router.patch('/questions/:id', async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ['questionPrompt', 'correctAnswer'];
+  const isValidUpdate = updates.every((update) => {
+    allowedUpdates.includes(update);
+  });
+  if (!isValidUpdate) {
+    res.status(400).send({error: 'Invalid updates!'});
+  }
+});
+
 router.get('/questions/:id', async (req, res) => {
   const _id = req.params.id;
   try {
